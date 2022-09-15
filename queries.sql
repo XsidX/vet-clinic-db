@@ -40,13 +40,13 @@ SAVEPOINT save_1;
 
 -- update weight to -ve weight
 UPDATE animals
-SET weight_kg = weight_kg * -1
+SET weight_kg = weight_kg * -1;
 -- rollback to savepoint save_1
 ROLLBACK TO SAVEPOINT save_1;
 -- update weight where -ve
 UPDATE animals
 SET weight_kg = weight_kg * -1
-WHERE weight_kg is < 0;
+WHERE weight_kg < 0;
 -- commit transactions
 COMMIT;
 
@@ -67,3 +67,51 @@ SELECT species, MIN(weight_kg) AS min_weight, MAX(weight_kg) AS max_weight FROM 
 
 -- species average escape attempts
 SELECT species, AVG(escape_attempts) AS avg_escape_attempts FROM animals GROUP BY species
+
+
+-- query multiple tables
+
+-- animals that belong to Melody Pond
+SELECT full_name, name
+FROM animals
+JOIN owners ON owners.id = animals.owner_id
+WHERE owners.full_name = 'Melody Pond'
+
+-- animals that are pokemon
+SELECT animals.name
+FROM animals
+JOIN species ON species.id = animals.species_id
+WHERE species.name = 'Pokemon'
+
+-- all owners with their animals including those without animals
+SELECT owners.full_name, animals.name
+FROM animals
+RIGHT JOIN owners ON owners.id = animals.owner_id
+
+-- animal count per species
+SELECT species.name, COUNT(animals) AS animal_count
+FROM animals
+JOIN species ON species.id = animals.species_id
+GROUP BY species.name
+
+-- all digimon owned by Jennifer Orwell
+SELECT animals.name
+FROM animals
+JOIN owners ON owners.id = animals.owner_id
+JOIN species ON species.id = animals.species_id
+WHERE owners.full_name = 'Jennifer Orwell' AND species.name = 'Digimon'
+
+-- all animals owned by Dean Winchester that haven't tried to escape
+SELECT animals.name
+FROM animals
+JOIN owners ON owners.id = animals.owner_id
+WHERE owners.full_name = 'Dean Winchester' AND animals.escape_attempts < 1
+
+-- owns the most animals
+SELECT owners.full_name, COUNT(animals) AS num_of_animals_owned
+FROM animals
+JOIN owners ON owners.id = animals.owner_id
+GROUP BY owners.id
+ORDER BY num_of_animals_owned DESC
+LIMIT 1
+
