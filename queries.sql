@@ -213,8 +213,31 @@ ORDER BY COUNT(species.name) DESC
 LIMIT 1;
 
 
+------------------------------------------------------------------------------------------------------------------------------
+  -- performance audit
+------------------------------------------------------------------------------------------------------------------------------
+
+EXPLAIN ANALYZE SELECT COUNT(*) FROM visits WHERE animal_id = 4
+-- the above query returns an execution time of 2757.049 ms
+CREATE INDEX visits_animal_id_idx ON visits (animal_id);
+-- after creating the index, the query execution time is 534.803 ms
+
+----------------------------------------------------------------------------------------------------------------------------------
 
 
+EXPLAIN ANALYZE SELECT * FROM visits WHERE vet_id = 2;
+-- the above query returns an execution time of 3656.370 ms
+
+CREATE INDEX visits_vet_id_idx ON visits (vet_id);
+-- after creating the index, the query execution time is 2181.498 ms
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+EXPLAIN ANALYZE SELECT * FROM owners WHERE email = 'owner_18327@mail.com';
+-- the above query returns an execution time of 2024.621 ms
+
+CREATE INDEX owners_email_idx ON owners (email);
+-- after creating the index, the query execution time is 0.432 ms
 
 
 
