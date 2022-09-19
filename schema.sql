@@ -26,9 +26,6 @@ ADD species_id INTEGER REFERENCES species(id)
 ALTER TABLE animals
 ADD owner_id INTEGER REFERENCES owners(id)
 
-
-
-
 -- create owners table
 CREATE TABLE owners (
 	id SERIAL PRIMARY KEY,
@@ -62,3 +59,7 @@ CREATE TABLE visits (
 	animal_id INTEGER REFERENCES animals(id),
 	date_of_visit DATE
 );
+
+-- add email column on owners table
+ALTER TABLE owners
+ADD COLUMN email VARCHAR(120);
