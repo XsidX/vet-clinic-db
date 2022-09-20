@@ -73,5 +73,3 @@ CREATE INDEX invoices_items_treatment_id_idx
 ON invoice_items(treatment_id);
 
 
-
-
