@@ -45,7 +45,32 @@ CREATE TABLE invoice_items (
   treatment_id INTEGER REFERENCES treatments(id)
 );
 
+-----------------------------------------------------------------------------------------------------
+  -- add indexes for lookup on tables
 
+  -- add index on medical_histories table for lookup on patient_id
+CREATE INDEX medical_histories_patient_id_idx 
+ON medical_histories(patient_id);
+
+-- add index on medical_histories_treatments join table for lookup on medical_history_id
+CREATE INDEX 
+ON medical_histories_treatments (medical_history_id)
+
+-- add index on medical_histories_treatments join table for lookup on treatment_id
+CREATE INDEX 
+ON medical_histories_treatments (treatment_id)
+
+-- add index on invoices table for lookup on medical_history_id
+CREATE INDEX invoices_medical_history_id_idx 
+ON invoices(medical_history_id);
+
+-- add index on invoice_items table for lookup on invoice_id
+CREATE INDEX invoices_items_invoice_id_idx 
+ON invoice_items(invoice_id);
+
+-- add index on invoice_items table for lookup on treatment_id
+CREATE INDEX invoices_items_treatment_id_idx 
+ON invoice_items(treatment_id);
 
 
 
