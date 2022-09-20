@@ -21,7 +21,7 @@ CREATE TABLE treatments (
 );
 
 -- create join table between medical_histories and treatments
-CREATE INDEX medical_histories_treatments (
+CREATE TABLE medical_histories_treatments (
 	medical_history_id INTEGER REFERENCES medical_histories(id),
   treatment_id INTEGER REFERENCES treatments(id)
 );
